@@ -1,14 +1,29 @@
 //Обьект данных
 var data = {};  
-//
-//Сохранения данных в локальное место
-function saveData(a) {} 
-//Загрузка данных с локального места
-function loadData(a) {} 
+let countTime;
+var time={
+  today:0,
+  allDay:0
+}
+
 chrome.tabs.onActivated.addListener(
-  tabactiveInfo => {
-    chrome.tabs.get(tabactiveInfo.tabId,infoTab=>{
-      console.log(infoTab.url);
-    })
+  
+  tabActiveInfo => {
+    chrome.tabs.get(tabActiveInfo.tabId,infoTab=>{
+
+    });
+    chrome.windows.getLastFocused({populate:!0},info=>{
+      console.log(info);
+    });
+
+    chrome.tabs.executeScript(tabActiveInfo.tabId,{file: 'clickScript.js'},a=>{console.log("load")})
   }
+  
+
 )
+chrome.runtime.onMessage.addListener(
+  message=>{
+    console.log(message);
+  }
+);
+countTime = window.setInterval(()=> {},1000);
