@@ -1,2 +1,4 @@
-console.log("load");
-document.onclick = chrome.runtime.sendMessage("click"); // отправка сообщения на background.js
+document.addEventListener("click", ()=>{
+    console.log("click");
+    chrome.runtime.sendMessage("click"); // отправка сообщения на background.js
+}); 

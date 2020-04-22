@@ -1,14 +1,33 @@
 //Сохранения данных в локальное место
-function saveData(saveData) { 
+function saveData() {
 
 }
+//Обновления данных
+function update() {
+    let tempData=data,temp={};
+    temp["data"]=JSON.stringify(tempData);
+    chrome.storage.local.set(temp, (a) => {  })
+}
+//Создания обьекта
+function loadCliclAndTime() {
+    if (!(data.hasOwnProperty(url))) {
+        return {
+            time: { allDay: 0 },
+            click: { allDay: 0 }
+        }
+    }
+}
 //Загрузка данных с локального места
-function loadData(a) { 
+function loadData(a) {
 
 }
 //Функция для считания времени
-function timeCount(){
-    
+function timeCount() {
+
+}
+//Функция для считания кликов
+function timeCount(a) {
+    a++;
 }
 //с URL взять домен
 function parseURL(URL) {
