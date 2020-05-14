@@ -7,8 +7,7 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-    "http://*/*",
-    "https://*/*",
+    "*://*/*",
     "tabs",
     "activeTab",
     "idle",
