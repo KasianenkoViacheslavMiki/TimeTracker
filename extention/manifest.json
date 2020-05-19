@@ -16,8 +16,10 @@
   ],
   "background": {
     "scripts": [
-      "background.js",
-      "data.js"
+      "data.js",
+      "background.js"
     ]
-  }
+  },
+  "optional_permissions": [ "\u003Call_urls>" ],
+  "offline_enabled": true
 }
