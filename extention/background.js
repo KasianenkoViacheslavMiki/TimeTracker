@@ -11,20 +11,16 @@ chrome.tabs.onActivated.addListener(
       url = parseURL(infoTab.url),
         createCliclAndTime(),
         console.log(url);
-    }),
-      chrome.windows.getLastFocused({ populate: !0 }, info => {
-
-      })
-     executeScript(tabActiveInfo.tabId,url);
-  
+        executeScript(tabActiveInfo.tabId,url);
+    })     
   }),
   chrome.runtime.onMessage.addListener(
     message => {
       if (message = "click") {
-        clickCount(data);
+        clickCount(data[url]);
       }
     }
   ),
   loadData(data),
-  countTime = window.setInterval(() => { timeCount(data[url]); }, 1000),
+  countTime = window.setInterval(() => { timeCount(data[url]); }, 1e3),
   updateData = window.setInterval(() => { update() }, 1e2);

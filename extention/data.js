@@ -8,18 +8,14 @@ function update() {
   let tempData = data, temp = {};
   temp["data"] = JSON.stringify(tempData);
   chrome.storage.local.set(temp, (a) => { })
-  chrome.idle.queryState(30, (o) => {
-
-  })
-
 }
 // Загрузка данных с локального места
 function loadData(a) {
   let temp;
-  chrome.storage.local.get(temp, t => { a = JSON.parse(t["data"]) }),
+  chrome.storage.local.get(temp, t => { if (a=={}) a = JSON.parse(t["data"]) }),
     console.log("loadData"),
     console.log(temp);
-    if (a!=undefined) createCliclAndTime();
+  if (a != undefined) createCliclAndTime();
 }
 //Дата текующого дня
 function getDateString() { let e, t, n, r, o, l; return n = e ? new Date(e) : new Date, r = n.getFullYear(), o = n.getMonth() + 1, o = o < 10 ? "0" + o : o, l = n.getDate(), l = l < 10 ? "0" + l : l, t = r + "-" + o + "-" + l, t };
@@ -80,10 +76,9 @@ function parseURL(URL) {
   return parser.hostname;
 }
 //Помещения js кода в страницу
-function executeScript(a,url) {
-  if ((blacklist.indexOf(url))) {
-    console.log((blacklist.indexOf(url))!=-1);
-    console.log("ex");
+function executeScript(a, url) {
+  if ((blacklist.indexOf(url) ===-1)) 
+  {
     chrome.tabs.executeScript(a, { file: 'clickScript.js' }, a => { })
   }
 }
