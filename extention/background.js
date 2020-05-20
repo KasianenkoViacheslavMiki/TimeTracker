@@ -1,10 +1,9 @@
 //Обьект данных
-var data = {
-  
-};
-var blacklist = ["extensions"]
+var data={};
+var blacklist = ["extensions","newtab"]
 let countTime, updateData;
 var url;
+loadData();
 chrome.tabs.onActivated.addListener(
   tabActiveInfo => {
     chrome.tabs.get(tabActiveInfo.tabId, infoTab => {
@@ -21,6 +20,5 @@ chrome.tabs.onActivated.addListener(
       }
     }
   ),
-  loadData(data),
-  countTime = window.setInterval(() => { timeCount(data[url]); }, 1e3),
+  countTime = window.setInterval(() => {timeCount(data[url]); }, 1e3),
   updateData = window.setInterval(() => { update() }, 1e2);

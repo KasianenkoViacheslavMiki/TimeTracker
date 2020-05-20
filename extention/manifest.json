@@ -12,7 +12,9 @@
     "activeTab",
     "idle",
     "storage",
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "http://*/",
+        "https://*/"
   ],
   "background": {
     "scripts": [
@@ -20,6 +22,5 @@
       "background.js"
     ]
   },
-  "optional_permissions": [ "\u003Call_urls>" ],
   "offline_enabled": true
 }

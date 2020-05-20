@@ -1,21 +1,17 @@
-//Сохранения данных в локальное место
-function saveData() {
-
-}
 //Обновления данных
-function update() {
-  let d;
+function update() { 
   let tempData = data, temp = {};
   temp["data"] = JSON.stringify(tempData);
-  chrome.storage.local.set(temp, (a) => { })
+  chrome.storage.local.set(temp, (a) => {})
 }
 // Загрузка данных с локального места
-function loadData(a) {
+function loadData() {
   let temp;
-  chrome.storage.local.get(temp, t => { if (a=={}) a = JSON.parse(t["data"]) }),
-    console.log("loadData"),
-    console.log(temp);
-  if (a != undefined) createCliclAndTime();
+  chrome.storage.local.get('data', t => {console.log(t.toString()); 
+    let lengthTemp= (Object.values(t)).length;
+    if (lengthTemp!=0) data = JSON.parse(t["data"]);} );
+  if (data == {} ) createCliclAndTime();
+
 }
 //Дата текующого дня
 function getDateString() { let e, t, n, r, o, l; return n = e ? new Date(e) : new Date, r = n.getFullYear(), o = n.getMonth() + 1, o = o < 10 ? "0" + o : o, l = n.getDate(), l = l < 10 ? "0" + l : l, t = r + "-" + o + "-" + l, t };
@@ -39,7 +35,6 @@ function createCliclAndTime() {
     }
   }
 }
-
 //Функция для считания времени
 function timeCount(a) {
   let e, t, s;
@@ -77,8 +72,7 @@ function parseURL(URL) {
 }
 //Помещения js кода в страницу
 function executeScript(a, url) {
-  if ((blacklist.indexOf(url) ===-1)) 
-  {
+  if ((blacklist.indexOf(url) === -1)) {
     chrome.tabs.executeScript(a, { file: 'clickScript.js' }, a => { })
   }
 }
