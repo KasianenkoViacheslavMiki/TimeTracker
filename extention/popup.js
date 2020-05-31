@@ -10,16 +10,26 @@ dataDomein = backgroundJS.data,
     urlPopup = backgroundJS.url,
     date = backgroundJS.getDateString();
 
-function secinTime() {
 
+var typeData = "time",
+    typeDate = "sec";
+function getDataForm() {
+    typeData = document.getElementById('typeData').value;
+    typeDate = document.getElementById('typeDate').value;
+}
+function secinTime(time) {
+    return (typeDate == "min" ? time / 60 : typeDate == "hou" ? time / 60 / 60 : typeDate == "day" ? time / 60 / 60 / 24 : time).toFixed(2);
+}
+function stringTime(time) {
+    return '' + Math.floor(time/60/60)+' ч '+Math.floor(time/60%60  )+' м '+Math.floor(time%60)+ ' c ';
 }
 function showInfo() {
     let dataPopup = document.getElementById("url-web");
     dataPopup.innerHTML = "URL: " + urlPopup;
     dataPopup = document.getElementById("time-web");
-    dataPopup.innerHTML = "Час за сьогодні: " + dataDomein[urlPopup][date].time;    
+    dataPopup.innerHTML = "Час за сьогодні: " +stringTime(dataDomein[urlPopup][date].time);
     dataPopup = document.getElementById("time-allday-web");
-    dataPopup.innerHTML = "Час за всі дні: " + dataDomein[urlPopup]["allday"].time;
+    dataPopup.innerHTML = "Час за всі дні: " + stringTime(dataDomein[urlPopup]["allday"].time);
     dataPopup = document.getElementById("click-web");
     dataPopup.innerHTML = "Кількість дій за сьогодні: " + dataDomein[urlPopup][date].click;
     dataPopup = document.getElementById("click-allday-web");
@@ -28,86 +38,94 @@ function showInfo() {
 showInfo();
 moment.locale('uk');
 function generateData() {
-    var unit = "day";
+    let unit = "day";
 
     function datainArray(date) {
-        var time = dataDomein[urlPopup][date.format("YYYY-MM-DD")].time;
+        let time = dataDomein[urlPopup][date.format("YYYY-MM-DD")][typeData];
         return {
             t: date.valueOf(),
-            y: time
+            y: typeData == "time" ? secinTime(time) : time
         };
     }
 
-    var date = moment(backgroundJS.firstDate, 'YYYY-MM-DD');
-    var now = moment(backgroundJS.getDateString(), 'YYYY-MM-DD');
-    var data = [];
+    let date = moment(backgroundJS.firstDate, 'YYYY-MM-DD');
+    let now = moment(backgroundJS.getDateString(), 'YYYY-MM-DD');
+    let data = [];
     for (; data.length < 1000 && date.isBefore(now); date = date.clone().add(1, unit).startOf(unit)) {
         if (dataDomein[urlPopup].hasOwnProperty(date.format("YYYY-MM-DD"))) {
             data.push(datainArray(date));
         }
     }
-
+    console.log(data);
     return data;
 }
-
+var per = document.getElementById('description');
 var ctx = document.getElementById('myChart').getContext('2d');
 ctx.canvas.width = 1100;
 ctx.canvas.height = 700;
 
 var color = Chart.helpers.color;
-var cfg = {
-    data: {
-        datasets: [{
-            label: urlPopup,
-            backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-            borderColor: window.chartColors.red,
-            data: generateData(),
-            type: 'line',
-            pointRadius: 0,
-            fill: false,
-            lineTension: 0,
-            borderWidth: 2
-        }]
-    },
-    options: {
-        animation: {
-            duration: 0
-        },
-        scales: {
-            xAxes: [{
-                type: 'time',
-                distribution: 'series',
-                offset: true,
-                ticks: {
-                    major: {
-                        enabled: true,
-                        fontStyle: 'bold'
-                    },
-                    source: 'data',
-                    autoSkip: true,
-                    autoSkipPadding: 75,
-                    maxRotation: 0,
-                    sampleSize: 100
-                },
-            }],
-            yAxes: [{
-                gridLines: {
-                    drawBorder: false
-                },
-                scaleLabel: {
-                    display: true,
-                    labelString: 'Години'
-                }
+function generateCfg() {
+    return {
+        data: {
+            datasets: [{
+                label: urlPopup,
+                backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                borderColor: window.chartColors.red,
+                data: generateData(),
+                type: 'line',
+                pointRadius: 0,
+                fill: false,
+                lineTension: 0,
+                borderWidth: 2
             }]
         },
-        tooltips: {
-            intersect: false,
-            mode: 'index',
+        options: {
+            animation: {
+                duration: 0
+            },
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'series',
+                    offset: true,
+                    ticks: {
+                        major: {
+                            enabled: true,
+                            fontStyle: 'bold'
+                        },
+                        source: 'data',
+                        autoSkip: true,
+                        autoSkipPadding: 75,
+                        maxRotation: 0,
+                        sampleSize: 100
+                    },
+                }],
+                yAxes: [{
+                    gridLines: {
+                        drawBorder: false
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: typeData == 'time' ? "Години" : "Дії"
+                    }
+                }]
+            },
+            tooltips: {
+                intersect: false,
+                mode: 'index',
+            }
         }
     }
 };
+var chart = new Chart(ctx, generateCfg());
 
-var chart = new Chart(ctx, cfg);
-
-
-
+$(".form-control").change(function () {
+    getDataForm();
+    chart.data.datasets[0].data = generateData();
+    chart.options.scales.yAxes[0].scaleLabel = {
+        display: true,
+        labelString: typeData == 'time' ? "Години" : "Дії"
+    }
+    chart.update();
+});

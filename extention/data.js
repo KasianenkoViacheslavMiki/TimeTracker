@@ -60,7 +60,7 @@ function timeCount(a) {
     chrome.idle.queryState(IDLE, o => {
       d.id, d.focused; 
       fixURL();let n = s.id; s.url;
-      if (d.focused) { a.allday.time += 1; a[tempData].time += 1; }
+      if (d.focused) {console.log("time"); a.allday.time += 1; a[tempData].time += 1; }
 
     })
   })
@@ -87,7 +87,7 @@ function clickCount(a) {
 function parseURL(URL) {
   var parser = document.createElement('a');
   parser.href = URL; 
-  if ('s.ytimg.com' == parser.href) return 'www.youtube.com';
+  if ('s.ytimg.com' == parser.href) return  'www.youtube.com';
   return parser.hostname;
 }
 //Помещения js кода в страницу

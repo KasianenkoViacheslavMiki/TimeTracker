@@ -2,7 +2,7 @@
 var data = {};
 var firstDate = "";
 firstSaveDateGet();
-var blacklist = ["extensions", "newtab"]
+var blacklist = ["extensions", "newtab", "hadlplbgodpefnacciopfaijpjfblpjf"]
 let countTime, updateData;
 var url;
 loadData();
@@ -20,8 +20,9 @@ chrome.tabs.onActivated.addListener(
             }
         })
       }
-      if ('s.ytimg.com' == url) url = 'www.youtube.com';
       executeScript(tabActiveInfo.tabId, url);
+      if ('s.ytimg.com' == url) url = 'www.youtube.com';
+
     })
   }),
   chrome.runtime.onMessage.addListener(
