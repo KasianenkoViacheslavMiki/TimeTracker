@@ -1,16 +1,17 @@
 //Обновления данных
-function update() { 
+function update() {
   let tempData = data, temp = {};
   temp["data"] = JSON.stringify(tempData);
-  chrome.storage.local.set(temp, (a) => {})
+  chrome.storage.local.set(temp, (a) => { })
 }
 // Загрузка данных с локального места
 function loadData() {
   let temp;
-  chrome.storage.local.get('data', t => {console.log(t.toString()); 
-    let lengthTemp= (Object.values(t)).length;
-    if (lengthTemp!=0) data = JSON.parse(t["data"]);} );
-  if (data == {} ) createCliclAndTime();
+  chrome.storage.local.get('data', t => {
+    let lengthTemp = (Object.values(t)).length;
+    if (lengthTemp != 0) data = JSON.parse(t["data"]);
+  });
+  if (data == {}) createCliclAndTime();
 
 }
 //Дата текующого дня
@@ -35,6 +36,17 @@ function createCliclAndTime() {
     }
   }
 }
+//Функция URL поиск *фикс ошибки*
+function fixURL() {
+  chrome.windows.getLastFocused({ populate: !0 }, d => {
+    for (let a in d.tabs)
+      if (d.tabs.hasOwnProperty(a) && !0 === d.tabs[a].active) {
+        url = parseURL(d.tabs[a].favIconUrl); 
+        if ('s.ytimg.com' == url) url = 'www.youtube.com';
+        createCliclAndTime();break;
+      }
+  })
+}
 //Функция для считания времени
 function timeCount(a) {
   let e, t, s;
@@ -46,7 +58,8 @@ function timeCount(a) {
         s = d.tabs[a]; break
       }
     chrome.idle.queryState(IDLE, o => {
-      d.id, d.focused; let n = s.id; s.url;
+      d.id, d.focused; 
+      fixURL();let n = s.id; s.url;
       if (d.focused) { a.allday.time += 1; a[tempData].time += 1; }
 
     })
@@ -58,7 +71,7 @@ function clickCount(a) {
   a.allday.click += 1; a[tempData].click += 1;
 }
 //с URL взять домен
-function parseURL(URL) {
+/*function parseURL(URL) {
   var parser = document.createElement('a'),
     searchObject = {},
     queries, split, i;
@@ -69,10 +82,30 @@ function parseURL(URL) {
     searchObject[split[0]] = split[1];
   }
   return parser.hostname;
+}*/
+//с URL взять домен 2.0
+function parseURL(URL) {
+  var parser = document.createElement('a');
+  parser.href = URL; 
+  if ('s.ytimg.com' == parser.href) return 'www.youtube.com';
+  return parser.hostname;
 }
 //Помещения js кода в страницу
 function executeScript(a, url) {
   if ((blacklist.indexOf(url) === -1)) {
     chrome.tabs.executeScript(a, { file: 'clickScript.js' }, a => { })
   }
+}
+function firstSaveDateSet() {
+  let firstDate = getDateString();
+  var temp = {};
+  temp["firstSaveDate"] = firstDate;
+  chrome.storage.local.set(temp, (a) => { console.log(temp); })
+}
+function firstSaveDateGet() {
+  let temp;
+  chrome.storage.local.get('firstSaveDate', t => {
+    if (t == undefined) firstSaveDateSet();
+    else firstDate = t["firstSaveDate"];
+  });
 }
