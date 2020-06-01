@@ -2,70 +2,107 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
 
-    <link rel="stylesheet" href="css/Chart.min.css">
-    <link rel="stylesheet" href="css/popup.css">
-    <meta charset="utf-8">
+  <link rel="stylesheet" href="css/Chart.min.css">
+  <link rel="stylesheet" href="css/popup.css">
+  <meta charset="utf-8">
 </head>
 
 <body class="lead">
 
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#description">Поточний web-сайт</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#characteristics">Всі web-сайти</a>
-        </li>
-    </ul>
-    <div class="tab-content p-3">
-        <div class="tab-pane fade show active" id="description">
-            <canvas id="myChart"></canvas>
-            <div class="form-row">
-                <div class="form-group col-md-6 w-50">
-                  <label for="typeData">Дій/час</label>
-                  <select class="form-control" id="typeData" required="">
-                    <option value="time">Час</option>
-                    <option value="click">Дії на сайті</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Please select a valid.
-                  </div>
-                </div>
-                <div class="form-group col-md-4 w-50">
-                  <label for="typeDate">Вигляд часу</label>
-                  <select class="form-control" id="typeDate" required="">
-                    <option value="sec">Секунда</option>
-                    <option value="min">Минута</option>
-                    <option value="hou">Година</option>
-                    <option value="day">Дні</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Please provide a valid.
-                  </div>
-                </div>
-              </div>            
-            <div class="block-data">
-                <p class="lead">Дані</p>
-                <div id="url-web" class="lead"></div>
-                <div id="time-web" class="lead"></div>
-                <div id="time-allday-web" class="lead"></div>
-                <div id="click-web" class="lead"></div>
-                <div id="click-allday-web" class="lead"></div>
-            </div>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#description">Поточний web-сайт</a>
+    </li>
+    <li class="click nav-item">
+      <a class="nav-link" data-toggle="tab" href="#characteristics">Всі web-сайти</a>
+    </li>
+  </ul>
+  <div class="tab-content p-3">
+    <div class="tab-pane fade show active" id="description">
+      <canvas id="myChart"></canvas>
+      <div class="form-row">
+        <div class="form-group col-md-6 w-50">
+          <label for="typeData">Дій/час</label>
+          <select class="form-control rolss" id="typeData" required="">
+            <option value="time">Час</option>
+            <option value="click">Дії на сайті</option>
+          </select>
+          <div class="invalid-feedback">
+            Please select a valid.
+          </div>
         </div>
-        <div class="tab-pane fade" id="characteristics">
-            Треккинг всіх web-сайтів </div>
+        <div class="form-group col-md-4 w-50">
+          <label for="typeDate">Вигляд часу</label>
+          <select class="form-control rolss" id="typeDate" required="">
+            <option value="sec">Секунда</option>
+            <option value="min">Минута</option>
+            <option value="hou">Година</option>
+            <option value="day">Дні</option>
+          </select>
+          <div class="invalid-feedback">
+            Please provide a valid.
+          </div>
+        </div>
+      </div>
+      <div class="block-data">
+        <p class="lead">Дані</p>
+        <div id="url-web" class="lead"></div>
+        <div id="time-web" class="lead"></div>
+        <div id="time-allday-web" class="lead"></div>
+        <div id="click-web" class="lead"></div>
+        <div id="click-allday-web" class="lead"></div>
+      </div>
     </div>
-    <script src="js/moment.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/Chart.min.js"></script>
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="popup.js"></script>
-    <script scr="data.js"></script>
+    <!--------------------------------------------------------------------------------------------------------------->
+    <div class="tab-pane fade" id="characteristics">
+      <div class="tab-pane fade show active" id="description">
+        <canvas id="myCharts"></canvas>
+        <div class="form-row">
+          <div class="form-group col-md-6 w-50">
+            <label for="typeData">Дій/час</label>
+            <select class="form-control form-controls" id="typeDatas" required="">
+              <option value="time">Час</option>
+              <option value="click">Дії на сайті</option>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid.
+            </div>
+          </div>
+          <div class="form-group col-md-4 w-50">
+            <label for="typeDates">Вигляд часу</label>
+            <select class="form-control form-controls" id="typeDates" required="">
+              <option value="sec">Секунда</option>
+              <option value="min">Минута</option>
+              <option value="hou">Година</option>
+              <option value="day">Дні</option>
+            </select>
+            <div class="invalid-feedback">
+              Please provide a valid.
+            </div>
+          </div>
+        </div>
+        <div class="block-data">
+          <p class="lead">Дані</p>
+          <div id="firstDate-all" class="lead"></div>
+          <div id="now-all" class="lead"></div>
+          <div id="time-web-all" class="lead"></div>
+          <div id="time-allday-web-all" class="lead"></div>
+          <div id="click-web-all" class="lead"></div>
+          <div id="click-allday-web-all" class="lead"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/moment.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/Chart.min.js"></script>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="popup.js"></script>
+  <script scr="data.js"></script>
 </body>
 
 </html>

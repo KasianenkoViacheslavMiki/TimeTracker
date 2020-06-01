@@ -41,28 +41,22 @@ function fixURL() {
   chrome.windows.getLastFocused({ populate: !0 }, d => {
     for (let a in d.tabs)
       if (d.tabs.hasOwnProperty(a) && !0 === d.tabs[a].active) {
-        url = parseURL(d.tabs[a].favIconUrl); 
+        url = parseURL(d.tabs[a].favIconUrl);
         if ('s.ytimg.com' == url) url = 'www.youtube.com';
-        createCliclAndTime();break;
+        createCliclAndTime(); break;
       }
   })
 }
 //Функция для считания времени
 function timeCount(a) {
   let e, t, s;
-  let IDLE = 30;
   let tempData = getDateString();
   chrome.windows.getLastFocused({ populate: !0 }, d => {
     for (let a in d.tabs)
       if (d.tabs.hasOwnProperty(a) && !0 === d.tabs[a].active) {
         s = d.tabs[a]; break
       }
-    chrome.idle.queryState(IDLE, o => {
-      d.id, d.focused; 
-      fixURL();let n = s.id; s.url;
-      if (d.focused) {console.log("time"); a.allday.time += 1; a[tempData].time += 1; }
-
-    })
+      if (d.focused) { a.allday.time += 1; a[tempData].time += 1; }
   })
 }
 //Функция для считания кликов
@@ -86,8 +80,8 @@ function clickCount(a) {
 //с URL взять домен 2.0
 function parseURL(URL) {
   var parser = document.createElement('a');
-  parser.href = URL; 
-  if ('s.ytimg.com' == parser.href) return  'www.youtube.com';
+  parser.href = URL;
+  if ('s.ytimg.com' == parser.href) return 'www.youtube.com';
   return parser.hostname;
 }
 //Помещения js кода в страницу
