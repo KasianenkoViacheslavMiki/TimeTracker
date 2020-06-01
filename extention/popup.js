@@ -21,7 +21,7 @@ function secinTime(time) {
     return (typeDate == "min" ? time / 60 : typeDate == "hou" ? time / 60 / 60 : typeDate == "day" ? time / 60 / 60 / 24 : time).toFixed(2);
 }
 function stringTime(time) {
-    return '' + Math.floor(time / 60 / 60) + ' ч ' + Math.floor(time / 60 % 60) + ' м ' + Math.floor(time % 60) + ' c ';
+    return ((time / 60 / 60) > 25 ? Math.floor(time / 60 / 60 / 24) + ' д ' + Math.floor(time / 60 / 60 % 24) + ' ч ' : Math.floor(time / 60 / 60) + ' ч ') + Math.floor(time / 60 % 60) + ' м ' + Math.floor(time % 60) + ' c ';
 }
 function showInfo() {
     let dataPopup = document.getElementById("url-web");
@@ -137,6 +137,9 @@ function generateCfgAll(data) {
             datasets: data,
         },
         options: {
+            animation: {
+                duration: 0
+            },
             legend: {
                 display: false
             },
@@ -204,26 +207,43 @@ function generateDataAll() {
     return datasets;
 }
 var chartAll;
+var allTimeUrl = 0, allTimeAllUrl = 0, allClickUrl = 0, allCliclAllUrl = 0;
+function countTimeData() {
+    let unit = "day";
+    for (let urlPopup in dataDomein) {
+        let now = moment(backgroundJS.getDateString(), 'YYYY-MM-DD');
+        allTimeAllUrl += dataDomein[urlPopup]["allday"].time;
+        allCliclAllUrl += dataDomein[urlPopup]["allday"].click;
+        if (dataDomein[urlPopup].hasOwnProperty(now.format("YYYY-MM-DD"))) {
+            allTimeUrl += dataDomein[urlPopup][now.format("YYYY-MM-DD")].time;
+            allClickUrl += dataDomein[urlPopup][now.format("YYYY-MM-DD")].click;
+        }
+
+    }
+}
+
 function showInfos() {
+    countTimeData();
     let dataPopup = document.getElementById("firstDate-all");
     dataPopup.innerHTML = "День встановлення додатка: " + backgroundJS.firstDate;
     dataPopup = document.getElementById("now-all");
     dataPopup.innerHTML = "Сьогоднішній день: " + backgroundJS.getDateString();
     dataPopup = document.getElementById("time-web-all");
-    dataPopup.innerHTML = "Час за сьогоднішній день на всіх сайтах: " + stringTime();
+    dataPopup.innerHTML = "Час за сьогоднішній день на всіх сайтах: " + stringTime(allTimeUrl);
     dataPopup = document.getElementById("time-allday-web-all");
-    dataPopup.innerHTML = "Час за всі дні на всіх сайтах: " + stringTime();
+    dataPopup.innerHTML = "Час за всі дні на всіх сайтах: " + stringTime(allTimeAllUrl);
     dataPopup = document.getElementById("click-web-all");
-    dataPopup.innerHTML = "Дії за сьогоднішній день на всіх сайтах: " + dataDomein[urlPopup]["allday"].click;
+    dataPopup.innerHTML = "Дії за сьогоднішній день на всіх сайтах: " + allClickUrl;
     dataPopup = document.getElementById("click-allday-web-all");
-    dataPopup.innerHTML = "Дії за всі дні на всіх сайтах: " + dataDomein[urlPopup][date].click;
+    dataPopup.innerHTML = "Дії за всі дні на всіх сайтах: " + allCliclAllUrl;
 }
+showInfos();
+
 $(".click").click(function () {
     var ctx = document.getElementById('myCharts').getContext('2d');
     ctx.canvas.width = 1100;
     ctx.canvas.height = 700;
     chartAll = new Chart(ctx, generateCfgAll(generateDataAll()));
-    chartAll.update();
 });
 var typeDatas = "time",
     typeDates = "sec";
