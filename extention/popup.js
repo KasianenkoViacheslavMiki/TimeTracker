@@ -51,7 +51,7 @@ function generateData() {
     let date = moment(backgroundJS.firstDate, 'YYYY-MM-DD');
     let now = moment(backgroundJS.getDateString(), 'YYYY-MM-DD');
     let data = [];
-    for (; data.length < 1000 && date.isBefore(now); date = date.clone().add(1, unit).startOf(unit)) {
+    for (; data.length < 1000 && (date.isBefore(now) || date.isSame(now)); date = date.clone().add(1, unit).startOf(unit)) {
         if (dataDomein[urlPopup].hasOwnProperty(date.format("YYYY-MM-DD"))) {
             data.push(datainArray(date));
         }
@@ -170,6 +170,7 @@ function generateCfgAll(data) {
 };
 function generateDataAll() {
     let unit = "day";
+
     let datasets = [];
     function datainArray(date, urlPopup) {
 
@@ -180,20 +181,24 @@ function generateDataAll() {
         };
     }
     for (let element in dataDomein) {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        var col = "rgb(" + r + "," + g + "," + b + ")";
         let date = moment(backgroundJS.firstDate, 'YYYY-MM-DD');
         let now = moment(backgroundJS.getDateString(), 'YYYY-MM-DD');
 
         let dataset = {};
         let data = [];
-        for (; data.length < 1000 && date.isBefore(now); date = date.clone().add(1, unit).startOf(unit)) {
+        for (; data.length < 1000 && (date.isBefore(now) || date.isSame(now)); date = date.clone().add(1, unit).startOf(unit)) {
             if (dataDomein[element].hasOwnProperty(date.format("YYYY-MM-DD"))) {
                 data.push(datainArray(date, element));
             }
         }
         dataset = {
             label: element,
-            backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-            borderColor: window.chartColors.red,
+            backgroundColor: color(col).alpha(0.5).rgbString(),
+            borderColor: col,
             data: data,
             type: 'line',
             pointRadius: 3,
