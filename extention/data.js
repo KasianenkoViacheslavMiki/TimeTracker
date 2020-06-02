@@ -51,6 +51,7 @@ function fixURL() {
 function timeCount(a) {
   let e, t, s;
   let tempData = getDateString();
+  fixURL();
   chrome.windows.getLastFocused({ populate: !0 }, d => {
     for (let a in d.tabs)
       if (d.tabs.hasOwnProperty(a) && !0 === d.tabs[a].active) {
