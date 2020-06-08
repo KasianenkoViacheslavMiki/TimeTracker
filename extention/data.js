@@ -86,9 +86,10 @@ function parseURL(URL) {
   return parser.hostname;
 }
 //Помещения js кода в страницу
-function executeScript(a, url) {
+function executeScript(url) {
+  var a;
   if ((blacklist.indexOf(url) === -1)) {
-    chrome.tabs.executeScript(a, { file: 'clickScript.js' }, a => { })
+    chrome.tabs.executeScript({ file: 'clickScript.js' }, a => { })
   }
 }
 function firstSaveDateSet() {

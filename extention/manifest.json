@@ -7,21 +7,19 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-    "*://*/*",
-    "tabs",
-    "activeTab",
+    "http://*/",
+    "https://*/",
     "idle",
     "storage",
-    "unlimitedStorage",
-    "http://*/",
-    "https://*/"
+    "unlimitedStorage"
   ],
+  "content_security_policy": "script-src 'self'; object-src 'self'",
   "icons": {
     "128": "icon/128x128.png",
     "16": "icon/16x16.png",
     "32": "icon/32x32.png",
     "48": "icon/48x48.png"
- },
+  },
   "background": {
     "scripts": [
       "data.js",
