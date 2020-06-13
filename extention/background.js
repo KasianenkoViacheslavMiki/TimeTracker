@@ -23,11 +23,11 @@ chrome.tabs.onActivated.addListener(
       })
     })
     coutnExet++;
-    chrome.tabs.executeScript({ code:'document.addEventListener("mouseup", ()=>{console.log('+coutnExet+');  chrome.runtime.sendMessage('+coutnExet+'); }); ' }, a => { })
+
   }),
   chrome.runtime.onMessage.addListener(
     message => {
-      if (message == coutnExet) {
+      if (message == "click") {
         clickCount(data[url]);
       }
     }

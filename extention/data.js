@@ -57,7 +57,7 @@ function timeCount(a) {
       if (d.tabs.hasOwnProperty(a) && !0 === d.tabs[a].active) {
         s = d.tabs[a]; break
       }
-      if (d.focused) { a.allday.time += 1; a[tempData].time += 1; }
+    if (d.focused) { a.allday.time += 1; a[tempData].time += 1; }
   })
 }
 //Функция для считания кликов
